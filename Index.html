@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshay Datarkar - Digital Designer Portfolio</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Vibrant Color Palette */
+            --primary-color: #7B3EFC; /* Deep Violet */
+            --secondary-color: #FF5C87; /* Bright Pink */
+            --bg-color: #F8F8F8; /* Light background */
+            --card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Custom Keyframes for Subtle Floating Effect */
+        @keyframes pulse-float {
+            0% { transform: translateY(0) scale(1); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); }
+            50% { transform: translateY(-7px) scale(1.01); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
+            100% { transform: translateY(0) scale(1); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); }
+        }
+
+        /* Custom Keyframes for Breathing Gradient Background */
+        @keyframes gradient-move {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(50px, 50px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Apply animations */
+        .float-card {
+            animation: pulse-float 6s ease-in-out infinite;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .aura-1 {
+            background: linear-gradient(135deg, var(--primary-color) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: gradient-move 15s infinite alternate;
+        }
+        .aura-2 {
+            background: linear-gradient(315deg, var(--secondary-color) 0%, rgba(255, 255, 255, 0) 70%);
+            animation: gradient-move 12s infinite reverse;
+        }
+
+        .cta-button {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .cta-button:hover {
+            box-shadow: 0 15px 30px rgba(123, 62, 252, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Text Animation */
+        @keyframes fade-slide-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-slide-in {
+            animation: fade-slide-in 1s ease-out 0.2s backwards;
+        }
+        
+        .glass-header {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- Vertical Navigation (The "Thread Line") --- */
+        #vertical-nav-container {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            z-index: 50; 
+            display: none; /* Hide on small screens */
+        }
+        @media (min-width: 768px) {
+            #vertical-nav-container { display: block; }
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 30px 0; 
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .nav-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.5);
+            box-shadow: 0 0 0 4px rgba(123, 62, 252, 0.3);
+        }
+        /* The vertical thread line connector */
+        .nav-dot:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 10px; 
+            left: 4px;
+            width: 2px;
+            height: 30px;
+            background-color: #ddd;
+            z-index: -1;
+        }
+        
+        /* Ensure sections take up full viewport height for distinct scrolling */
+        .page-section {
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 80px;
+            scroll-margin-top: 80px; /* Offset for fixed header */
+        }
+
+        /* Specific styles for card hover effects on Work page */
+        .work-card:hover .work-title {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Wrapper for the entire layout -->
+    <div class="relative min-h-screen pt-4 pb-12 overflow-hidden">
+        
+        <!-- Animated Background Auras -->
+        <div class="aura-1 absolute top-[-50px] left-[-50px] w-64 h-64 sm:w-96 sm:h-96 rounded-full opacity-30 blur-3xl z-0"></div>
+        <div class="aura-2 absolute bottom-[-100px] right-[-100px] w-64 h-64 sm:w-96 sm:h-96 rounded-full opacity-30 blur-3xl z-0"></div>
+
+        <!-- --- Fixed Vertical Navigation (The "Thread Line") --- -->
+        <div id="vertical-nav-container" class="md:block hidden">
+            <div id="vertical-nav" class="flex flex-col items-center">
+                <a href="#home" class="nav-dot active" id="dot-home"></a>
+                <a href="#work" class="nav-dot" id="dot-work"></a>
+                <a href="#about" class="nav-dot" id="dot-about"></a>
+                <a href="#services" class="nav-dot" id="dot-services"></a>
+                <a href="#contact" class="nav-dot" id="dot-contact"></a>
+            </div>
+        </div>
+
+        <!-- Main Content Area (z-10 to stay above auras) -->
+        <div class="container mx-auto px-4 relative z-10">
+
+            <!-- --- Fixed Header/Navigation --- -->
+            <header class="fixed top-4 left-1/2 transform -translate-x-1/2 w-[95%] max-w-5xl flex justify-between items-center py-4 bg-white/70 backdrop-blur-lg rounded-2xl glass-header px-6 transition-all duration-500 z-40">
+                <!-- Logo/Name -->
+                <div class="text-xl font-black text-gray-900 flex items-center">
+                  
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 110 4h2a2 2 0 100-4h-2a2 2 0 00-2 2v10a2 2 0 102 2h2a2 2 0 100-4h-2a2 2 0 00-2 2v-4a2 2 0 10-2-2v4a2 2 0 102 2h2"></path>
+                    </svg>
+                    :Techie Akki 
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-8 text-sm font-medium" id="header-nav">
+                    <a href="#home" class="text-gray-600 hover:text-gray-900 transition duration-300 transform hover:scale-105 font-bold text-purple-600">Home</a>
+                    <a href="#work" class="text-gray-600 hover:text-gray-900 transition duration-300 transform hover:scale-105">Work</a>
+                    <a href="#about" class="text-gray-600 hover:text-gray-900 transition duration-300 transform hover:scale-105">About</a>
+                    <a href="#services" class="text-gray-600 hover:text-gray-900 transition duration-300 transform hover:scale-105">Services</a>
+                    <a href="#contact" class="text-gray-600 hover:text-gray-900 transition duration-300 transform hover:scale-105">Contact</a>
+                </nav>
+
+                <!-- Action Button -->
+                <a href="#contact" class="hidden md:block px-6 py-2 text-sm font-semibold rounded-full text-white shadow-lg cta-button" style="background-color: var(--primary-color);">
+                    Hire Me
+                </a>
+            </header>
+            <!-- END Fixed Header/Navigation -->
+
+            <!-- ============================================== -->
+            <!-- SECTION 1: HOME (Hero) -->
+            <!-- ============================================== -->
+            <section id="home" class="page-section pt-32 lg:pt-48 pb-20">
+                <main class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+                    
+                    <!-- Left Content Block (Text & CTAs) -->
+                    <div class="text-center lg:text-left animate-fade-slide-in" id="hero-text">
+                        <p class="text-sm font-semibold mb-3 tracking-wider uppercase opacity-80" style="color: var(--secondary-color);">
+                            Digital Designer & Shorts Strategist
+                        </p>
+                        <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6" style="line-height: 1.1;">
+                            <span class="block">Hello, I'm</span> 
+                            <span class="block text-transparent bg-clip-text" style="background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));">Akshay Datarkar.</span>
+                        </h1>
+                        
+                        <p class="text-lg text-gray-500 mb-8 max-w-md mx-auto lg:mx-0">
+                            I’m a Digital Designer and Shorts Strategist specializing in creating visually compelling content that captures attention fast. I blend design, storytelling, and platform insights to craft high-impact short-form videos. My focus is helping brands grow through creative, scroll-stopping visuals.
+                        </p>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
+                            <a href="#work" class="px-8 py-3 font-semibold rounded-full text-white shadow-xl cta-button flex items-center justify-center" style="background-color: var(--primary-color);">
+                                View Portfolio
+                            </a>
+                            <a href="#contact" class="px-8 py-3 font-semibold rounded-full text-gray-700 border-2 border-gray-300 hover:border-gray-500 hover:text-gray-900 bg-white transition duration-300 transform hover:scale-[1.02] flex items-center justify-center">
+                                Get a Free Quote
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Visual Block (Image & Floating Cards) -->
+                    <div class="relative w-full h-96 lg:h-[450px] flex items-center justify-center">
+                        
+                        <!-- Main Image Placeholder (Circular/Gradient) -->
+                        <div class="absolute w-72 h-72 sm:w-80 sm:h-80 rounded-full p-2 transition-all duration-500 hover:scale-[1.05]" style="background-image: linear-gradient(135deg, rgba(123, 62, 252, 0.6), rgba(255, 92, 135, 0.6));">
+                            <img src="C:\Users\KA\Desktop\Personal Project\My Portfolio\assest\ME.jpeg" alt="Designer Portrait Placeholder" class="w-full h-full object-cover rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/800x800/e0e0e0/555?text=Akshay+Datarkar';" />
+                        </div>
+
+                        <!-- Floating Card 1: Projects -->
+                        <div class="float-card absolute top-10 left-0 lg:left-[-50px] p-4 rounded-xl bg-white shadow-xl w-40 text-center transition-all duration-500 opacity-0">
+                            <span class="text-2xl font-bold block text-transparent bg-clip-text" style="background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));">240+</span>
+                            <p class="text-xs text-gray-500 mt-1">Projects Completed</p>
+                        </div>
+
+                        <!-- Floating Card 2: Satisfaction -->
+                        <div class="float-card absolute top-[-5px] right-4 lg:right-[-30px] p-4 rounded-xl bg-white shadow-xl w-36 text-center transition-all duration-500 opacity-0">
+                            <span class="text-2xl font-bold block" style="color: var(--secondary-color);">4.9/5</span>
+                            <p class="text-xs text-gray-500 mt-1">Client Rating</p>
+                        </div>
+                        
+                        <!-- Floating Card 3: Brand Identity/Service -->
+                        <div class="float-card absolute bottom-0 left-1/2 transform -translate-x-1/2 lg:translate-x-0 lg:bottom-10 lg:right-0 p-5 rounded-xl bg-white shadow-2xl w-56 text-left transition-all duration-500 opacity-0">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" style="color: var(--primary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path></svg>
+                                <div>
+                           
+              <div class="flex justify-center space-x-6">
+                
+                <!-- 1. LinkedIn -->
+                <a href="https://www.linkedin.com/in/akshay-datarkar-278965248?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="https://www.linkedin.com/in/akshay-datarkar-278965248?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" aria-label="LinkedIn" class="text-primary-text/90 hover:text-accent-cyan transition duration-200 transform hover:scale-110">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM4 9h4v12H4zM6 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+                </a>
+                
+                <!-- 2. Instagram -->
+                <a href="https://www.instagram.com/techie.playzz?igsh=eXVucGV6ZHJ6MHdw" target="https://www.instagram.com/techie.playzz?igsh=eXVucGV6ZHJ6MHdw" aria-label="Instagram" class="text-primary-text/90 hover:text-accent-cyan transition duration-200 transform hover:scale-110">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.148 3.225-1.669 4.77-4.919 4.919-1.266.058-1.644.069-4.849.069s-3.583-.012-4.849-.069c-3.254-.149-4.771-1.699-4.919-4.92-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.21-6.78 2.618-6.99 6.985-.059 1.28-.073 1.68-.073 4.947s.014 3.666.072 4.947c.21 4.358 2.618 6.78 6.985 6.99 1.28.058 1.68.072 4.947.072s3.666-.014 4.947-.072c4.357-.21 6.78-2.618 6.985-6.985.059-1.28.073-1.68.073-4.947s-.014-3.667-.072-4.947c-.21-4.358-2.618-6.78-6.985-6.99-1.28-.058-1.68-.072-4.947-.072zm0 7.387c-2.43 0-4.414 1.984-4.414 4.414s1.984 4.414 4.414 4.414 4.414-1.984 4.414-4.414-1.984-4.414-4.414-4.414zm0 7.387c-1.647 0-2.986-1.339-2.986-2.986s1.339-2.986 2.986-2.986 2.986 1.339 2.986 2.986-1.339 2.986-2.986 2.986zm6.54-.912c0 .825.669 1.494 1.494 1.494s1.494-.669 1.494-1.494-.669-1.494-1.494-1.494-1.494.669-1.494 1.494z"/></svg>
+                </a>
+
+                <!-- 3. Facebook -->
+                <a href="https://www.facebook.com/share/16JAjuUXxu/" target="https://www.facebook.com/share/16JAjuUXxu/" aria-label="Facebook" class="text-primary-text/90 hover:text-accent-cyan transition duration-200 transform hover:scale-110">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14 13.5l1 4.5l-4 0v-6h-1v-2h1v-1c0-1.284 0-2.613.918-3.483c.961-.926 2.302-.917 2.766-.917c.507 0 1.25.044 1.7.126v2.174l-1.307-.001c-.812 0-.968.384-.968.956v1.071h2.5l-.2 2.5h-2.3v6H14z"/></svg>
+                </a>
+                
+                <!-- 4. YouTube -->
+                <a href="https://youtube.com/@techieplayzz?si=lvzaeNEPpSDkJzPe" target="https://youtube.com/@techieplayzz?si=lvzaeNEPpSDkJzPe" aria-label="YouTube" class="text-primary-text/90 hover:text-accent-cyan transition duration-200 transform hover:scale-110">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.33 13.51c-.13.38-.63.63-1.04.63H9.71c-.41 0-.91-.25-1.04-.63-.19-.55-.24-1.2-.24-2.14v-2.73c0-.94.05-1.59.24-2.14.13-.38.63-.63 1.04-.63h5.58c.41 0 .91.25 1.04.63.19.55.24 1.2.24 2.14v2.73c0 .94-.05 1.59-.24 2.14zm-3.33-6.51l3 1.9-3 1.9v-3.8z"/></svg>
+                </a>
+            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </section>
+            <!-- END SECTION 1: HOME -->
+
+
+            <!-- ============================================== -->
+            <!-- SECTION 2: WORK -->
+            <!-- ============================================== -->
+            <section id="work" class="page-section max-w-5xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-center">My <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));">Recent Work</span></h2>
+                <p class="text-lg text-gray-500 mb-12 text-center max-w-2xl mx-auto">A selection of projects focusing on design systems, brand identity, and user experience.</p>
+
+                <!-- Project Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Project Card 1 -->
+                    <div class="work-card bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer transition duration-300 hover:shadow-2xl transform hover:scale-[1.01] border border-gray-100">
+                        <img src="C:\Users\KA\Desktop\Personal Project\My Portfolio\assest\Web Page.png" alt="E-commerce UI Design" class="w-full h-64 object-cover transition duration-500 group-hover:opacity-80"/>
+                        <div class="p-6">
+                            <h3 class="work-title text-2xl font-bold transition duration-300">Dessigner Personal Portfolio</h3>
+                            <p class="text-sm text-gray-500 mt-2">UI/UX Design, Figma, Prototyping</p>
+                            <p class="mt-4 text-gray-600">A high-fidelity design system and user flow optimized for mobile conversions.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 2 -->
+                    <div class="work-card bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer transition duration-300 hover:shadow-2xl transform hover:scale-[1.01] border border-gray-100">
+                        <img src="C:\Users\KA\Desktop\Personal Project\My Portfolio\assest\vs.jpeg" alt="Brand Identity Design" class="w-full h-64 object-cover transition duration-500 group-hover:opacity-80"/>
+                        <div class="p-6">
+                            <h3 class="work-title text-2xl font-bold transition duration-300">Business card Design</h3>
+                            <p class="text-sm text-gray-500 mt-2">Visiting Card , Brand Guidelines, Motion Graphics</p>
+                            <p class="mt-4 text-gray-600">Developing a modern, professional, and scalable brand identity for a B2B SaaS company.</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3 -->
+                    <div class="work-card bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer transition duration-300 hover:shadow-2xl transform hover:scale-[1.01] border border-gray-100">
+                        <img src="C:\Users\KA\Desktop\Personal Project\My Portfolio\assest\h1.jpeg" alt="Mobile App Concept" class="w-full h-64 object-cover transition duration-500 group-hover:opacity-80"/>
+                        <div class="p-6">
+                            <h3 class="work-title text-2xl font-bold transition duration-300">Brand Acent Product</h3>
+                            <p class="text-sm text-gray-500 mt-2">Brand Product, Display Add, User Testing</p>
+                            <p class="mt-4 text-gray-600">Designing an intuitive Display Screen For Brand.</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 4 -->
+                    <div class="work-card bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer transition duration-300 hover:shadow-2xl transform hover:scale-[1.01] border border-gray-100">
+                        <img src="C:\Users\KA\Desktop\Personal Project\My Portfolio\assest\h2.jpeg" alt="Corporate Website" class="w-full h-64 object-cover transition duration-500 group-hover:opacity-80"/>
+                        <div class="p-6">
+                            <h3 class="work-title text-2xl font-bold transition duration-300">Youtube Banner Design </h3>
+                            <p class="text-sm text-gray-500 mt-2">Webflow Youtube Banner, Responsive Design, SEO</p>
+                            <p class="mt-4 text-gray-600">A clean, high-performance corporate website built for lead generation and professional presence.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-16">
+                    <a href="#contact" class="px-8 py-3 font-semibold rounded-full text-white shadow-xl cta-button" style="background-color: var(--primary-color);">
+                        See More Case Studies
+                    </a>
+                </div>
+            </section>
+            <!-- END SECTION 2: WORK -->
+
+
+            <!-- ============================================== -->
+            <!-- SECTION 3: ABOUT -->
+            <!-- ============================================== -->
+            <section id="about" class="page-section max-w-5xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-center">My <span style="color: var(--secondary-color);">Journey</span> & Process</h2>
+                <p class="text-lg text-gray-500 mb-16 text-center max-w-2xl mx-auto">My design philosophy centers on empathy, strategy, and relentless execution.</p>
+
+                <!-- Process/Timeline Layout -->
+                <div class="relative max-w-4xl mx-auto">
+                    <!-- Vertical Line Connector -->
+                    <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-0.5 h-full bg-gray-300"></div>
+
+                    <!-- Step 1: Discover -->
+                    <div class="mb-12 flex md:justify-start justify-center flex-col md:flex-row items-center w-full">
+                        <div class="md:w-1/2 p-4 md:pr-12 text-right">
+                            <h3 class="text-2xl font-bold" style="color: var(--primary-color);">1. Discovery & Strategy</h3>
+                            <p class="text-gray-600 mt-2">Understanding client goals, target audience, and competitive landscape. Defining the core problem.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white border-4 border-white shadow-lg flex-shrink-0 relative z-10" style="background-color: var(--primary-color);"></div>
+                        <div class="md:w-1/2 p-4 md:pl-12 text-left hidden md:block"></div>
+                    </div>
+
+                    <!-- Step 2: Design -->
+                    <div class="mb-12 flex md:justify-end justify-center flex-col md:flex-row-reverse items-center w-full">
+                        <div class="md:w-1/2 p-4 md:pl-12 text-left">
+                            <h3 class="text-2xl font-bold" style="color: var(--secondary-color);">2. Design & Prototyping</h3>
+                            <p class="text-gray-600 mt-2">Wireframing, high-fidelity mockups, and interactive prototypes built for user testing.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white border-4 border-white shadow-lg flex-shrink-0 relative z-10" style="background-color: var(--secondary-color);"></div>
+                        <div class="md:w-1/2 p-4 md:pr-12 text-right hidden md:block"></div>
+                    </div>
+
+                    <!-- Step 3: Implement -->
+                    <div class="mb-12 flex md:justify-start justify-center flex-col md:flex-row items-center w-full">
+                        <div class="md:w-1/2 p-4 md:pr-12 text-right">
+                            <h3 class="text-2xl font-bold" style="color: var(--primary-color);">3. Implementation Support</h3>
+                            <p class="text-gray-600 mt-2">Working closely with developers to ensure pixel-perfect execution and functional integrity.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white border-4 border-white shadow-lg flex-shrink-0 relative z-10" style="background-color: var(--primary-color);"></div>
+                        <div class="md:w-1/2 p-4 md:pl-12 text-left hidden md:block"></div>
+                    </div>
+
+                    <!-- Step 4: Iterate -->
+                    <div class="flex md:justify-end justify-center flex-col md:flex-row-reverse items-center w-full">
+                        <div class="md:w-1/2 p-4 md:pl-12 text-left">
+                            <h3 class="text-2xl font-bold" style="color: var(--secondary-color);">4. Launch & Iteration</h3>
+                            <p class="text-gray-600 mt-2">Post-launch analysis, gathering feedback, and continuous improvement based on real data.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white border-4 border-white shadow-lg flex-shrink-0 relative z-10" style="background-color: var(--secondary-color);"></div>
+                        <div class="md:w-1/2 p-4 md:pr-12 text-right hidden md:block"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- END SECTION 3: ABOUT -->
+
+
+            <!-- ============================================== -->
+            <!-- SECTION 4: SERVICES -->
+            <!-- ============================================== -->
+            <section id="services" class="page-section max-w-5xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-center">What I <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color));">Offer</span></h2>
+                <p class="text-lg text-gray-500 mb-12 text-center max-w-2xl mx-auto">Tailored design solutions to meet your digital needs, from concept to delivery.</p>
+
+                <!-- Services Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Service Card 1: UI/UX -->
+                    <div class="p-8 bg-white rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl hover:border-violet-300 border border-gray-100 text-center">
+                        <svg class="w-12 h-12 mx-auto mb-4" style="color: var(--primary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9.25 21H16.75L16.25 17H9.75ZM15 3L12 6L9 3M5 11H19M12 21V6"></path></svg>
+                        <h3 class="text-2xl font-bold mb-2">User Interface & UX</h3>
+                        <p class="text-gray-600">Creating beautiful, user-centered digital products that are easy to navigate and achieve business goals.</p>
+                    </div>
+
+                    <!-- Service Card 2: Branding -->
+                    <div class="p-8 bg-white rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl hover:border-pink-300 border border-gray-100 text-center">
+                        <svg class="w-12 h-12 mx-auto mb-4" style="color: var(--secondary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        <h3 class="text-2xl font-bold mb-2">Brand Identity</h3>
+                        <p class="text-gray-600">Developing cohesive and memorable brand visuals, including logos, guidelines, and visual language.</p>
+                    </div>
+
+                    <!-- Service Card 3: Motion -->
+                    <div class="p-8 bg-white rounded-2xl shadow-xl transition duration-300 hover:shadow-2xl hover:border-violet-300 border border-gray-100 text-center">
+                        <svg class="w-12 h-12 mx-auto mb-4" style="color: var(--primary-color);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18H3a2 2 0 01-2-2V8a2 2 0 012-2h3.5l-2 4 2 4 2-4-2-4z"></path></svg>
+                        <h3 class="text-2xl font-bold mb-2">Digital Marketing Assets</h3>
+                        <p class="text-gray-600">Creating high-impact assets, social media templates, and simple motion graphics for campaigns.</p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <p class="text-xl font-semibold text-gray-700">Ready to start? <a href="#contact" class="underline" style="color: var(--secondary-color);">Get in touch today.</a></p>
+                </div>
+            </section>
+            <!-- END SECTION 4: SERVICES -->
+
+
+            <!-- ============================================== -->
+            <!-- SECTION 5: CONTACT -->
+            <!-- ============================================== -->
+            <section id="contact" class="page-section max-w-5xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-center">Let's <span style="color: var(--primary-color);">Connect</span></h2>
+                <p class="text-lg text-gray-500 mb-12 text-center max-w-2xl mx-auto">I'm currently accepting new projects. Tell me about your needs!</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100">
+                    
+                    <!-- Contact Form (2/3 width on desktop) -->
+                    <div class="lg:col-span-2">
+                        <form action="#" method="POST" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <input type="text" id="name" name="name" class="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-purple-500 focus:border-purple-500 transition duration-200" placeholder="Your Name">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                    <input type="email" id="email" name="email" class="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-purple-500 focus:border-purple-500 transition duration-200" placeholder="your@email.com">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="project_type" class="block text-sm font-medium text-gray-700">Project Type</label>
+                                <select id="project_type" name="project_type" class="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-purple-500 focus:border-purple-500 transition duration-200">
+                                    <option>UI/UX Design</option>
+                                    <option>Graphics Design</option>
+                                    <option>Marketing Assets</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700">Your Message</label>
+                                <textarea id="message" name="message" rows="4" class="mt-1 w-full p-3 border border-gray-300 rounded-xl focus:ring-purple-500 focus:border-purple-500 transition duration-200" placeholder="Describe your project and budget..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full px-8 py-3 text-lg font-semibold rounded-xl text-white shadow-xl cta-button" style="background-color: var(--primary-color);">
+                                Send Your Request
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Info / CTA Side Block (1/3 width on desktop) -->
+                    <div class="lg:col-span-1 p-6 rounded-2xl text-white flex flex-col justify-center" style="background-color: var(--secondary-color);">
+                        <h3 class="text-2xl font-bold mb-4">Let's Build Something Great.</h3>
+                        <p class="text-sm opacity-90 mb-6">I strive for timely and effective communication. Expect a reply within 24 hours!</p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                <span>Datarkarakshay99@gmail.com</span>
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <span>Based in Wardha, India</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END SECTION 5: CONTACT -->
+
+        </div>
+        
+    </div>
+    <footer class="text-center py-6 border-t border-gray-200 bg-white/70 backdrop-blur-sm mt-12">
+        <p class="text-sm text-gray-500">© 2024 Akshay Datarkar. All rights reserved. | Built with passion and style.</p>
+    </footer>
+
+    <script>
+        // --- JavaScript for Interactive Scrolling and Navigation ---
+
+        // 1. Initial fade-in effect for Hero elements (kept from previous version)
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.float-card, #hero-text');
+            animatedElements.forEach(el => {
+                if (el.classList.contains('float-card')) {
+                    el.classList.remove('opacity-0');
+                } else {
+                    el.style.opacity = 0;
+                    el.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        el.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
+                        el.style.opacity = 1;
+                        el.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            });
+        });
+
+        // 2. Smooth Scrolling for all internal anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Update active state immediately on click for quick feedback
+                setActiveSection(this.getAttribute('href').substring(1));
+            });
+        });
+
+        // 3. Intersection Observer for 'Thread Line' and Header active state
+        const sections = document.querySelectorAll('section');
+        const headerLinks = document.querySelectorAll('#header-nav a');
+        const verticalDots = document.querySelectorAll('.nav-dot');
+
+        const setActiveSection = (id) => {
+            // Update Header Link
+            headerLinks.forEach(link => {
+                link.classList.remove('font-bold', 'text-gray-900');
+                link.style.color = 'inherit'; // Reset custom color for non-active links
+            });
+            const activeHeaderLink = document.querySelector(`#header-nav a[href="#${id}"]`);
+            if (activeHeaderLink) {
+                activeHeaderLink.classList.add('font-bold', 'text-gray-900');
+                activeHeaderLink.style.color = 'var(--primary-color)'; // Use primary color for highlight
+            }
+
+            // Update Vertical Dot
+            verticalDots.forEach(dot => dot.classList.remove('active'));
+            const activeDot = document.querySelector(`#dot-${id}`);
+            if (activeDot) {
+                activeDot.classList.add('active');
+            }
+        }
+
+
+        // Use Intersection Observer for accurate detection while scrolling
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px 0px -50% 0px', // Detect when the middle 50% of the viewport is in a section
+            threshold: 0.01 // Start detecting as soon as section enters view
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // This is the current section that occupies the center of the viewport
+                    setActiveSection(entry.target.getAttribute('id'));
+                }
+            });
+        }, observerOptions); 
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+    </script>
+</body>
+</html>
